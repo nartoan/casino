@@ -1,9 +1,11 @@
+import { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { IGame, JackPot } from "../types/game";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "./Ribbon.css";
+import { gameContext } from "../hooks/useContextGame";
 
 const GameCard = ({
   gameData,
@@ -12,6 +14,8 @@ const GameCard = ({
   gameData: IGame;
   jackpot?: JackPot;
 }) => {
+  const { selectedCategory } = useContext(gameContext);
+
   return (
     <div className="relative rounded-lg w-full h-auto min-h-[150px] hover:scale-110 hover:cursor-pointer shadow-black">
       <LazyLoadImage
@@ -27,8 +31,18 @@ const GameCard = ({
           £{jackpot?.amount}
         </div>
       )}
-      {gameData.categories.includes("new") && <div className="ribbon">NEW</div>}
-      {gameData.categories.includes("hot") && <div className="ribbon">HOT</div>}
+      {selectedCategory !== "new" && selectedCategory !== "hot" ? (
+        <>
+          {gameData.categories.includes("new") && (
+            <div className="ribbon">NEW</div>
+          )}
+          {gameData.categories.includes("hot") && (
+            <div className="ribbon">HOT</div>
+          )}
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
