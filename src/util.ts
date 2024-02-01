@@ -1,0 +1,1 @@
+export const fetcher = (key: string) => fetch(`https://stage.whgstage.com/front-end-test${key}`).then(res => res.json())
